@@ -15,9 +15,10 @@ class PostController extends Controller
      */
     public function list()
     {
+        dd(auth()->id());
         $posts = auth()->user()->posts()->orderBy('created_at', 'desc')->paginate(10);
 
-        if (!$posts->first())
+        if ($posts == null || !$posts->first())
         {
             return response()->json(['message' => 'No more posts'], 404);
         }

@@ -1,9 +1,14 @@
 require('./bootstrap');
 
-//  window.Vue = require('vue');
-//  Vue.component('CreateNewPost', require('./components/CreateNewPost.vue').default);
-//  Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-//  const app = new Vue({
-//    el: '#app',
-//  });
+
+
+import Vue from "vue";
+import App from './components/App.vue'
+Vue.component('create-new-post', require('./components/post/CreateNewPost.vue'));
+Vue.component('list-all-posts', require('./components/post/ListAllPosts.vue'));
+
+const app = new Vue({
+    el: '#app',
+    components: { App }
+});

@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
-});
-Route::group(['prefix' => 'post'], function ()
-{
-    Route::get('/list', [PostController::class, 'list']);
-    Route::post('/create', [PostController::class, 'create']);
+    Route::group(['prefix' => 'post'], function ()
+    {
+        Route::get('/list', [PostController::class, 'list']);
+        Route::post('/create', [PostController::class, 'create']);
+    });
 });
