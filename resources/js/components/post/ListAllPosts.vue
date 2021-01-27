@@ -3,7 +3,7 @@
     <div v-if="this.error !== ''" class="mt-10">{{ this.error }}</div>
     <div v-if="this.loading" class="mt-10">Loading ...</div>
     <div v-if="this.posts">
-      <div class="card" v-for="post in posts.data" :key="post.id">
+      <div class="card mt-4" v-for="post in posts.data" :key="post.id">
         <div class="card-header">
           <h5>{{ post.user.name }}</h5>
         </div>
@@ -15,6 +15,8 @@
             <img
               :src="`/storage/${post.attachment.path}`"
               :alt="post.attachment.name"
+              class="image-responsive"
+              style="width: 200px"
             />
           </div>
           {{ post.content }}

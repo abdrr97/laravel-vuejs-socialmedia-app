@@ -27,4 +27,8 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('/list', [PostController::class, 'list']);
         Route::post('/create', [PostController::class, 'store']);
     });
+    Route::group(['prefix' => 'user'], function ()
+    {
+        Route::get('/{user}/follow', [PostController::class, 'follow']);
+    });
 });

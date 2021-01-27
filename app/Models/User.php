@@ -18,11 +18,6 @@ class User extends Authenticatable
      * @var array
      */
 
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
-
     protected $fillable = [
         'name',
         'email',
@@ -47,4 +42,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function friends()
+    {
+        return $this->hasMany(Friend::class);
+    }
+
+    public function follow(User $user)
+    {
+        if ($this->friends()->where('friend_id', $user->id)->first())
+        {
+            return null;
+        }
+
+        return $this->friends()->save(
+            new Friend([
+                'friend_id', $user->id,
+            ])
+        );
+    }
 }
