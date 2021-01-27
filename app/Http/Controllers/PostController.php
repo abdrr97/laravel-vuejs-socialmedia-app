@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,13 +16,21 @@ class PostController extends Controller
      */
     public function list()
     {
-        dd(auth()->id());
-        $posts = auth()->user()->posts()->orderBy('created_at', 'desc')->paginate(10);
+
+        $posts = auth()
+            ->user()
+            ->posts()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         if ($posts == null || !$posts->first())
         {
             return response()->json(['message' => 'No more posts'], 404);
         }
+
+
+        return PostResource::collection($posts);
     }
 
     /**
@@ -32,11 +41,39 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validate($request, ['content' => 'required']);
+        $data = $this->validate(
+            $request,
+            [
+                'content' => 'required',
+                'image' => 'image'
+            ]
+        );
 
-        auth()->user()->posts()->create($data);
+        $attachment = null;
 
-        return new PostResource($data);
+        if ($request->hasFile('image'))
+        {
+            $file_name = Uuid::uuid();
+            $file = $request->file('image');
+            $file->storeAs('uploads', $file_name, 'public');
+            $path = '/uploads/' . $file_name;
+            $attachment = [
+                'path' => $path,
+                'type' => 'image',
+                'name' => $file_name
+            ];
+        }
+
+        $post = new Post([
+            'content' => $data['content'],
+            'attachment' => $attachment,
+        ]);
+
+        auth()->user()->posts()->save($post);
+
+        $post->load('user');
+
+        return new PostResource($post);
     }
 
     /**

@@ -14,8 +14,11 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'content',
+    protected $guarded = [
+        'id'
+    ];
+    protected $casts = [
+        'attachment' => 'array'
     ];
 
     public function user()
