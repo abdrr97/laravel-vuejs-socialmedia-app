@@ -43,7 +43,7 @@
           </div>
           <div class="col">
             <button @click="createPost" class="btn btn-primary">
-              <span v-if="this.creatingPost">Loading ...</span>
+              <span v-if="this.creatingPost">Loading...</span>
               <span v-else>Post</span>
             </button>
           </div>

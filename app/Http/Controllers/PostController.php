@@ -107,6 +107,7 @@ class PostController extends Controller
                     $q->where('user_id', $user->id);
                 });
             })
+            ->orWhere('user_id', $user->id)
             ->orderBy('created_at', 'DESC')
             ->paginate(20);
 

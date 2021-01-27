@@ -14,7 +14,7 @@ Vue.component('list-all-posts', require('./components/post/ListAllPosts.vue'));
 Vue.component('follow', require('./components/user/Follow.vue'));
 Vue.component('feed', require('./components/Home/Feed.vue'));
 Vue.component('post', require('./components/post/SinglePost.vue'));
-
+Vue.component('infinite-loading', require('vue-infinite-loading'));
 const app = new Vue({
     el: '#app',
     components: { App, ListAllPosts, Follow }
