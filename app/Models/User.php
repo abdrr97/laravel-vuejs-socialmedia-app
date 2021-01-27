@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Friend::class);
     }
 
+    public function followers()
+    {
+        return $this->hasMany(Friend::class, 'friend_id');
+    }
+
     public function follow(User $user)
     {
         if ($this->friends()->where('friend_id', $user->id)->first())

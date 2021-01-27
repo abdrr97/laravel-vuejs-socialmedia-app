@@ -12,39 +12,41 @@
             cols="30"
             rows="10"
             v-model="content"
-            placeholder="tell us about your day !!"
+            placeholder="Tell us about your day !!"
           ></textarea>
         </div>
       </div>
-      <div class="card-footer text-right">
-        <div class="float-left">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupFileAddon01"
-                >Upload</span
-              >
-            </div>
-            <div class="custom-file">
-              <input
-                type="file"
-                class="custom-file-input"
-                id="inputGroupFile01"
-                ref="fileInput"
-                @change="fileAdded"
-                aria-describedby="inputGroupFileAddon01"
-                accept="image/*"
-              />
-              <label class="custom-file-label" for="inputGroupFile01">
-                Choose file
-              </label>
+      <div class="card-footer m-0">
+        <div class="row">
+          <div class="col-10">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01"
+                  >Upload
+                </span>
+              </div>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="inputGroupFile01"
+                  ref="fileInput"
+                  @change="fileAdded"
+                  aria-describedby="inputGroupFileAddon01"
+                  accept="image/*"
+                />
+                <label class="custom-file-label" for="inputGroupFile01">
+                  Choose file
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="float-right">
-          <button @click="createPost" class="btn btn-primary">
-            <span v-if="this.creatingPost">Loading ...</span>
-            <span v-else>Post</span>
-          </button>
+          <div class="col">
+            <button @click="createPost" class="btn btn-primary">
+              <span v-if="this.creatingPost">Loading ...</span>
+              <span v-else>Post</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -78,6 +80,7 @@ export default {
         .then((res) => {
           let post = res.data.data;
           this.$root.$emit("post-created", post);
+          this.content = "";
 
           this.creatingPost = false;
         })

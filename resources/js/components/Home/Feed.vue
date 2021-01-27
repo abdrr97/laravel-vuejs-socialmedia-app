@@ -3,23 +3,17 @@
     <div v-if="this.error !== ''" class="mt-10">{{ this.error }}</div>
     <div v-if="this.loading" class="mt-10">Loading ...</div>
     <div v-if="this.posts">
-      <post v-for="post in posts.data" :key="post.id" :post="post" />
+      <post v-for="post in this.posts.data" :key="post.id" :post="post" />
     </div>
   </div>
 </template>
+
 <script>
-import Post from "./SinglePost.vue";
+import Post from "../post/SinglePost.vue";
 export default {
   components: { Post },
-  name: "ListAllPosts",
+  name: "Feed",
   mounted() {
-    this.$root.$on("post-created", (post) => {
-      if (this.posts === null) {
-        this.getPosts();
-      } else {
-        this.posts.data.push(post);
-      }
-    });
     this.getPosts();
   },
   data() {
@@ -33,7 +27,7 @@ export default {
     getPosts() {
       this.loading = true;
       axios
-        .get("/api/post/list")
+        .get("/api/feed")
         .then((response) => {
           this.posts = response.data;
           this.loading = false;
@@ -48,5 +42,6 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>
+

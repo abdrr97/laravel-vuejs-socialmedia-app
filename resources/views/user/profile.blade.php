@@ -12,7 +12,6 @@
                     <small>{{$user->email}}</small>
                     <hr>
                     <follow :user-id="{{ $user->id }}" :is-following="{{ $user->is_following() ? 'true' : 'false' }}" />
-
                 </div>
             </div>
 

@@ -1,17 +1,17 @@
 <template>
   <div>
     <create-new-post />
-    <list-all-posts />
+    <feed />
   </div>
 </template>
 
 <script>
+import Feed from "./Home/Feed.vue";
 import CreateNewPost from "./post/CreateNewPost.vue";
-import ListAllPosts from "./post/ListAllPosts.vue";
-const default_layout = "default";
 
+const default_layout = "default";
 export default {
-  components: { ListAllPosts, CreateNewPost },
+  components: { CreateNewPost, Feed },
   name: "app",
   mounted() {},
   data() {

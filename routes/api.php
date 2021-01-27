@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
+    Route::get('feed', [PostController::class, 'feed']);
+
     Route::group(['prefix' => 'post'], function ()
     {
         Route::get('/list', [PostController::class, 'list']);

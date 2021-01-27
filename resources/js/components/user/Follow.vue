@@ -13,7 +13,7 @@
       v-else
       @click="unFollow()"
       :disabled="saving"
-      class="btn btn-default"
+      class="btn btn-secondary"
     >
       unFollow
     </button>

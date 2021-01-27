@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Auth;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 
@@ -87,15 +88,29 @@ class PostController extends Controller
         //
     }
     /**
-     * Update the specified resource in storage.
+     * feed front page app
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Post $post)
+     * we are getting all the posts of users we followed
+     *
+     * @return PostCollection
+     **/
+
+    public function feed()
     {
-        //
+        $user = Auth::user();
+
+        $feed = Post::with('user')
+            ->whereHas('user', function ($query) use ($user)
+            {
+                $query->whereHas('followers', function ($q) use ($user)
+                {
+                    $q->where('user_id', $user->id);
+                });
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate(20);
+
+        return PostResource::collection($feed);
     }
 
     /**
