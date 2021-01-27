@@ -15,6 +15,7 @@ class CreateFriendsTable extends Migration
     {
         Schema::create('friends', function (Blueprint $table)
         {
+
             $table->id();
             $table
                 ->foreignId('user_id')

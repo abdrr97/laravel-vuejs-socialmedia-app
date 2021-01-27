@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     });
     Route::group(['prefix' => 'user'], function ()
     {
-        Route::get('/{user}/follow', [PostController::class, 'follow']);
+        Route::post('/{user}/follow', [UserController::class, 'follow']);
+        Route::post('/{user}/unfollow', [UserController::class, 'unfollow']);
     });
 });

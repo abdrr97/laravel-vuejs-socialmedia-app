@@ -18,9 +18,9 @@ class Friend extends Model
         'id'
     ];
 
-    public function friends()
+    public function friend()
     {
-        return $this->hasOne(Friend::class, 'friend_id', 'id');
+        return $this->hasOne(User::class, 'friend_id', 'id');
     }
 
     public function user()

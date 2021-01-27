@@ -60,11 +60,13 @@ class User extends Authenticatable
         {
             return null;
         }
+        return $this->friends()->save(new Friend([
+            'friend_id' => $user->id,
+        ]));
+    }
 
-        return $this->friends()->save(
-            new Friend([
-                'friend_id', $user->id,
-            ])
-        );
+    public function is_following()
+    {
+        return Friend::where('user_id', auth()->id())->where('friend_id', $this->id)->first();
     }
 }

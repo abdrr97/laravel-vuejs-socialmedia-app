@@ -72,6 +72,7 @@ export default {
       if (this.file !== null) {
         formData.append("image", this.file);
       }
+
       axios
         .post("/api/post/create", formData)
         .then((res) => {
