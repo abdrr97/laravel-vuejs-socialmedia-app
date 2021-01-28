@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Feed from "./Home/Feed.vue";
-import CreateNewPost from "./post/CreateNewPost.vue";
+import Feed from "./Home/Feed";
+import CreateNewPost from "./post/CreateNewPost";
 
 const default_layout = "default";
 export default {

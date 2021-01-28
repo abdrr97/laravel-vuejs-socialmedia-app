@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -27,12 +28,13 @@ Route::group(['middleware' => 'auth:api'], function ()
 
     Route::group(['prefix' => 'post'], function ()
     {
-        Route::get('/list', [PostController::class, 'list']);
-        Route::post('/create', [PostController::class, 'store']);
+        Route::get('list', [PostController::class, 'list']);
+        Route::post('create', [PostController::class, 'store']);
+        Route::post('{post}/comments', [PostCommentController::class, 'create']);
     });
     Route::group(['prefix' => 'user'], function ()
     {
-        Route::post('/{user}/follow', [UserController::class, 'follow']);
-        Route::post('/{user}/unfollow', [UserController::class, 'unfollow']);
+        Route::post('{user}/follow', [UserController::class, 'follow']);
+        Route::post('{user}/unfollow', [UserController::class, 'unfollow']);
     });
 });

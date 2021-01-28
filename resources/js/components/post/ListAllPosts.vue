@@ -8,7 +8,8 @@
   </div>
 </template>
 <script>
-import Post from "./SinglePost.vue";
+import Post from "../SinglePost/Post";
+
 export default {
   components: { Post },
   name: "ListAllPosts",

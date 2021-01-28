@@ -17,19 +17,15 @@ class PostController extends Controller
      */
     public function list()
     {
-
         $posts = auth()
             ->user()
             ->posts()
             ->with('user')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
         if ($posts == null || !$posts->first())
-        {
             return response()->json(['message' => 'No more posts'], 404);
-        }
-
 
         return PostResource::collection($posts);
     }
@@ -107,6 +103,14 @@ class PostController extends Controller
                     $q->where('user_id', $user->id);
                 });
             })
+            ->with(([
+                'comments' => function ($query)
+                {
+                    $query->with('user')
+                        ->orderBy('created_at', 'ASC');
+                },
+            ]))
+            ->withCount('comments as total_comments')
             ->orWhere('user_id', $user->id)
             ->orderBy('created_at', 'DESC')
             ->paginate(20);
@@ -114,12 +118,7 @@ class PostController extends Controller
         return PostResource::collection($feed);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Post $post)
     {
         //

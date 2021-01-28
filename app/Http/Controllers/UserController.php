@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -33,6 +32,6 @@ class UserController extends Controller
             return response()->json(['message' => 'Im not Following you 😢'], 500);
         }
         $following->delete();
-        return response()->json(['message' => 'Successfully unFollowed 😢'], 500);
+        return response()->json(['message' => 'Successfully unFollowed 😢'], 403);
     }
 }

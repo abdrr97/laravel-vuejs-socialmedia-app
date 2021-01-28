@@ -1,21 +1,22 @@
 <template>
   <div>
-    <div v-if="this.error !== ''" class="mt-10">{{ this.error }}</div>
-    <div v-if="this.posts">
-      <post v-for="post in this.posts.data" :key="post.id" :post="post" />
-
-      <mugen-scroll :handler="getPosts" :should-handle="!loading">
-        loading...
-      </mugen-scroll>
+    <div v-if="error !== ''" class="mt-10">{{ error }}</div>
+    <div v-if="loading" class="mt-10">Loading ...</div>
+    <div v-if="posts">
+      <post
+        v-on:comment-posted="post.comments.push($event)"
+        v-for="post in posts.data"
+        :key="post.id"
+        :post="post"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import MugenScroll from "vue-mugen-scroll";
-import Post from "../post/SinglePost.vue";
+import Post from "../SinglePost/Post.vue";
 export default {
-  components: { Post, MugenScroll },
+  components: { Post },
   name: "Feed",
   mounted() {
     this.getPosts();
@@ -25,14 +26,13 @@ export default {
       posts: [],
       error: "",
       loading: false,
-      page: 1,
     };
   },
   methods: {
     getPosts() {
       this.loading = true;
       axios
-        .get(`/api/feed?page=${this.page}`)
+        .get(`/api/feed`)
         .then((response) => {
           if (response.data) {
             this.posts = response.data;
@@ -42,7 +42,6 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
-      this.page++;
       this.loading = false;
     },
   },

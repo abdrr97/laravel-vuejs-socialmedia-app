@@ -19,12 +19,7 @@
       <div class="card-footer m-0">
         <div class="row">
           <div class="col-10">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01"
-                  >Upload
-                </span>
-              </div>
+            <div class="input-group">
               <div class="custom-file">
                 <input
                   type="file"
@@ -79,7 +74,7 @@ export default {
         .post("/api/post/create", formData)
         .then((res) => {
           let post = res.data.data;
-          this.$root.$emit("post-created", post);
+          this.$emit("post-created", post);
           this.content = "";
 
           this.creatingPost = false;
