@@ -4,7 +4,7 @@
       v-if="!following"
       @click="follow()"
       :disabled="saving"
-      class="btn btn-primary"
+      class="btn btn-sm text-sm btn-primary"
     >
       Follow
     </button>
@@ -13,9 +13,9 @@
       v-else
       @click="unFollow()"
       :disabled="saving"
-      class="btn btn-secondary"
+      class="btn btn-sm text-sm btn-secondary"
     >
-      unFollow
+      Un Follow
     </button>
   </div>
 </template>

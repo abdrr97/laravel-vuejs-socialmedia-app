@@ -9,18 +9,21 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    Users you might follow
+                    Users you might want to follow
                 </div>
                 <div class="card-body">
-
                     @foreach ($users as $user)
-                    <div class="row justify-content-center align-items-center">
-                        <h5>{{ $user->name }}</h5>
-                        <follow class="mx-5" :user-id="{{ $user->id }}"
-                            :is-following="{{ $user->is_following() ? 'true' : 'false' }}" />
+                    <div class="row align-items-center my-3">
+                        <div class="col-auto mr-auto ">
+                            {{ $user->name }}
+                        </div>
+                        <div class="col-auto">
+                            <follow class="" :user-id="{{ $user->id }}"
+                                :is-following="{{ $user->is_following() ? 'true' : 'false' }}" />
+                        </div>
                     </div>
                     @endforeach
 

@@ -54,9 +54,9 @@ export default {
   mounted() {},
   data() {
     return {
+      content: "",
       creatingPost: false,
       error: null,
-      content: "",
       file: null,
     };
   },

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Auth;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -50,19 +51,21 @@ class PostController extends Controller
 
         if ($request->hasFile('image'))
         {
-            $file_name = Uuid::uuid();
             $file = $request->file('image');
+            $file_ext = '.' . $file->extension();
+            $file_name = Uuid::uuid() . $file_ext;
+
             $file->storeAs('uploads', $file_name, 'public');
-            $path = '/uploads/' . $file_name;
+            $path = 'uploads/' . $file_name;
             $attachment = [
                 'path' => $path,
+                'name' => $file_name,
                 'type' => 'image',
-                'name' => $file_name
             ];
         }
 
         $post = new Post([
-            'content' => $data['content'],
+            'content' => $request->content,
             'attachment' => $attachment,
         ]);
 
@@ -74,23 +77,12 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-    /**
      * feed front page app
      *
      * we are getting all the posts of users we followed
      *
      * @return PostCollection
      **/
-
     public function feed()
     {
         $user = Auth::user();
@@ -106,8 +98,7 @@ class PostController extends Controller
             ->with(([
                 'comments' => function ($query)
                 {
-                    $query->with('user')
-                        ->orderBy('created_at', 'ASC');
+                    $query->with('user')->orderBy('created_at', 'ASC');
                 },
             ]))
             ->withCount('comments as total_comments')
@@ -116,11 +107,5 @@ class PostController extends Controller
             ->paginate(20);
 
         return PostResource::collection($feed);
-    }
-
-
-    public function destroy(Post $post)
-    {
-        //
     }
 }

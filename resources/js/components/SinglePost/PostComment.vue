@@ -1,12 +1,12 @@
 <template>
   <div class="card-body">
-    <h6 class="row align-items-center">
-      <b>{{ comment.user.name }}</b>
-      <small class="text-muted float-right">
+    <h6 class="row">
+      <b class="col-auto mr-auto">{{ comment.user.name }}</b>
+      <small class="text-muted col-auto">
         {{ new Date(comment.created_at).toDateString() }}
       </small>
     </h6>
-    <p>{{ comment.content }}</p>
+    <p class="mb-0">{{ comment.content }}</p>
   </div>
 </template>
 
@@ -26,4 +26,3 @@ export default {
 
 <style>
 </style>
-

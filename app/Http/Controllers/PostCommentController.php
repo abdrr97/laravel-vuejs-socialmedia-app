@@ -19,6 +19,6 @@ class PostCommentController extends Controller
 
         $comment->load('user');
 
-        return response()->json($post);
+        return response()->json($comment);
     }
 }

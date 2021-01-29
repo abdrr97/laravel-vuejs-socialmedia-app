@@ -26,10 +26,11 @@
 
     <div
       style="max-height: 300px; overflow-y: auto"
-      class="card-body border-top"
+      class="card-body"
       v-if="post.comments && post.comments.length > 0"
     >
       <post-comment
+        class="border-top"
         v-for="comment in post.comments"
         :key="comment.id"
         :comment="comment"
@@ -72,7 +73,6 @@ export default {
           content: this.input,
         })
         .then((response) => {
-          console.log(response);
           this.$emit("comment-posted", response.data);
           this.input = "";
           this.busy = false;
