@@ -30,4 +30,14 @@ class Post extends Model
     {
         return $this->hasMany(PostComment::class);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class);
+    }
+
+    public function like()
+    {
+        return $this->hasOne(PostLike::class)->where('user_id', auth()->id());
+    }
 }

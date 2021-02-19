@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         Route::get('list', [PostController::class, 'list']);
         Route::post('create', [PostController::class, 'store']);
+        Route::post('{post}/like', [PostController::class, 'like']);
         Route::post('{post}/comments', [PostCommentController::class, 'create']);
     });
     Route::group(['prefix' => 'user'], function ()

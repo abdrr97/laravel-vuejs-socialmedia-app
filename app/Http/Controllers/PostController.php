@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\PostLike;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 
@@ -101,11 +102,36 @@ class PostController extends Controller
                     $query->with('user')->orderBy('created_at', 'ASC');
                 },
             ]))
+            ->with('like')
             ->withCount('comments as total_comments')
+            ->withCount('likes as total_likes')
             ->orWhere('user_id', $user->id)
             ->orderBy('created_at', 'DESC')
             ->paginate(20);
 
         return PostResource::collection($feed);
+    }
+
+    public function like(Post $post)
+    {
+        $like = $post->like()->first();
+
+        if ($like)
+        {
+            $like->delete();
+
+            return response()->json([
+                'message' => 'Successfully Disliked post.',
+                'like' => null,
+                'total_likes' => $post->likes()->count()
+            ]);
+        }
+
+        $like = $post->likes()->save(new PostLike(['user_id' => auth()->id()]));
+        return response()->json([
+            'message' => 'Successfully liked post.',
+            'like' => $like,
+            'total_likes' => $post->likes()->count()
+        ]);
     }
 }
