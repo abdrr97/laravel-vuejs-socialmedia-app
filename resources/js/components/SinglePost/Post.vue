@@ -22,7 +22,7 @@
                 <li>
                     <div>
                         {{ post.total_likes }}
-                        {{ post.total_likes === 1 ? 'person has liked this post' : 'people have liked this post' }}
+                        {{ post.total_likes <= 1 ? 'person has liked this post' : 'people have liked this post' }}
                     </div>
                     <a href="javascript:;" @click="toggleLike(post)" v-if="post.like === null">Like</a>
                     <a href="javascript:;" @click="toggleLike(post)" v-else>Dislike</a>
