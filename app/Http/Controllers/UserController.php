@@ -6,6 +6,12 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function logged_in_user()
+    {
+        $user = auth()->user();
+        return response()->json(['user' => $user], 200);
+    }
+
     public function view_profile(User $user)
     {
         return view('user.profile', [

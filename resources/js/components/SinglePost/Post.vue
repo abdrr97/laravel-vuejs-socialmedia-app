@@ -2,24 +2,24 @@
     <div class="card mt-4" v-if="post">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <a :href="`/user/${this.post.user.id}`">
-                    <h5>{{ this.post.user.name }}</h5>
+                <a :href="`/user/${post.user.id}`">
+                    <h5>{{ post.user.name }}</h5>
                 </a>
-                <button class="btn btn-danger btn-sm">
-                    delete
+                <button @click="deletePost()" v-if="currentUser.id == post.user.id " class="btn btn-danger btn-sm">
+                    {{ deleting ? 'deleting ...' : 'delete' }}
                 </button>
             </div>
         </div>
         <div class="card-body">
             <div v-if="
-          this.post.attachment !== null && this.post.attachment.type === 'image'
+          post.attachment !== null && post.attachment.type === 'image'
         ">
-                <img :src="`/storage/${this.post.attachment.path}`" :alt="this.post.attachment.name"
-                    class="img-responsive" style="width: 100%" />
+                <img :src="`/storage/${post.attachment.path}`" :alt="post.attachment.name" class="img-responsive"
+                    style="width: 100%" />
             </div>
-            {{ this.post.content }}
+            {{ post.content }}
             <small class="text-muted">
-                {{ new Date(this.post.created_at).toDateString() }}
+                {{ new Date(post.created_at).toDateString() }}
             </small>
         </div>
         <div class="card-body border-top bg-light">
@@ -54,24 +54,40 @@
 <script>
     import PostComment from "./PostComment.vue";
     export default {
+        name: "SinglePost",
         components: {
             PostComment,
         },
-        name: "SinglePost",
         props: {
             post: Object,
+            currentUser: Object
         },
-        mounted() {},
+        mounted() {
+            console.log(this.currentUser.id);
+        },
         data() {
             return {
                 input: "",
-                loading: false,
-                busy: false,
+                deleting: false
             };
         },
         methods: {
+            deletePost() {
+                this.deleting = true
+                setTimeout(() => {
+                    axios
+                        .post(`/api/post/${this.post.id}/delete`)
+                        .then((response) => {
+                            this.$emit("post-deleted");
+                            this.deleting = false
+                        })
+                        .catch((error) => {
+                            console.error(e.response.errors);
+                            this.deleting = false
+                        });
+                }, 1000);
+            },
             comment() {
-                this.busy = true;
                 axios
                     .post(`/api/post/${this.post.id}/comments`, {
                         content: this.input,
@@ -79,10 +95,9 @@
                     .then((response) => {
                         this.$emit("comment-posted", response.data);
                         this.input = "";
-                        this.busy = false;
                     })
                     .catch((error) => {
-                        this.busy = false;
+                        console.error(e.response.errors);
                     });
             },
             toggleLike(post) {

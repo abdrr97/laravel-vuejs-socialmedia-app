@@ -6,6 +6,7 @@ use Auth;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostLike;
+use App\Models\User;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 
@@ -134,11 +135,16 @@ class PostController extends Controller
             'total_likes' => $post->likes()->count()
         ]);
     }
-    public function FunctionName(Post $post)
+    public function delete_post(Post $post)
     {
+
+        if ($post->user->id != auth()->id())
+            abort(403);
+
         if ($post == null || !$post->first())
             return response()->json(['message' => 'No post to delete'], 404);
 
         $post->delete();
+        return response()->json(['success' => 'post was deleted successfully'], 200);
     }
 }
