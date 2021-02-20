@@ -40,7 +40,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validate(
+        $this->validate(
             $request,
             [
                 'content' => 'required',
@@ -133,5 +133,12 @@ class PostController extends Controller
             'like' => $like,
             'total_likes' => $post->likes()->count()
         ]);
+    }
+    public function FunctionName(Post $post)
+    {
+        if ($post == null || !$post->first())
+            return response()->json(['message' => 'No post to delete'], 404);
+
+        $post->delete();
     }
 }

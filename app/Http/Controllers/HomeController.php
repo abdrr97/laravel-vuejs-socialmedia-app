@@ -8,16 +8,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -26,8 +16,7 @@ class HomeController extends Controller
     {
         $users = User::where('id', '!=', auth()->id())->orderBy('name')->get();
 
-        return view('home', [
-            'users' => $users
-        ]);
+        // return $users;
+        return view('home', ['users' => $users]);
     }
 }

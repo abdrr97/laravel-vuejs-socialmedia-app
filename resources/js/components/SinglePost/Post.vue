@@ -1,9 +1,14 @@
 <template>
     <div class="card mt-4" v-if="post">
         <div class="card-header">
-            <a :href="`/user/${this.post.user.id}`">
-                <h5>{{ this.post.user.name }}</h5>
-            </a>
+            <div class="d-flex justify-content-between">
+                <a :href="`/user/${this.post.user.id}`">
+                    <h5>{{ this.post.user.name }}</h5>
+                </a>
+                <button class="btn btn-danger btn-sm">
+                    delete
+                </button>
+            </div>
         </div>
         <div class="card-body">
             <div v-if="
@@ -24,8 +29,12 @@
                         {{ post.total_likes }}
                         {{ post.total_likes <= 1 ? 'person has liked this post' : 'people have liked this post' }}
                     </div>
-                    <a href="javascript:;" @click="toggleLike(post)" v-if="post.like === null">Like</a>
-                    <a href="javascript:;" @click="toggleLike(post)" v-else>Dislike</a>
+                    <a href="javascript:;" @click="toggleLike(post)" v-if="post.like === null">
+                        <i class="fa fa-thumbs-up fa-2x"></i>
+                    </a>
+                    <a href="javascript:;" @click="toggleLike(post)" v-else>
+                        <i class="text-muted fa fa-thumbs-down fa-2x"></i>
+                    </a>
                 </li>
             </ul>
         </div>

@@ -17,15 +17,6 @@
         name: "Feed",
         mounted() {
             this.getPosts();
-
-            this.$root.$on("post-created", function (post) {
-                this.getPosts();
-                if (this.posts === null) {
-                    this.getPosts();
-                } else {
-                    this.posts.data.unshift(post);
-                }
-            });
         },
         data() {
             return {
