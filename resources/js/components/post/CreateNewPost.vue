@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div v-if="deletedMessageShow" class="alert alert-info" role="alert">
+            post deleted successfully
+            <button @click="deletedMessageShow = false" type="button" class="close" data-dismiss="alert"
+                aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
         <div class="card">
             <div class="card-header">Create Post</div>
             <div class="card-body">
@@ -37,13 +45,22 @@
 <script>
     export default {
         name: "CreateNewPost",
-        mounted() {},
+        mounted() {
+            let vm = this;
+            this.$root.$on('post-deleted', function () {
+                vm.deletedMessageShow = true
+                // setTimeout(() => {
+                //     vm.deletedMessageShow = false
+                // }, 1300);
+            });
+        },
         data() {
             return {
                 content: "",
                 creatingPost: false,
                 error: null,
                 file: null,
+                deletedMessageShow: false
             };
         },
         methods: {

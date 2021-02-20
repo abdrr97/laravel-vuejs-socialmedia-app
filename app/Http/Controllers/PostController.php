@@ -74,7 +74,6 @@ class PostController extends Controller
         auth()->user()->posts()->save($post);
 
         $post->load('user');
-
         return new PostResource($post);
     }
 

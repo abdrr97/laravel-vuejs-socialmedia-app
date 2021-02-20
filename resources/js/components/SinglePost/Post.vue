@@ -29,7 +29,7 @@
                         {{ post.total_likes }}
                         {{ post.total_likes <= 1 ? 'person has liked this post' : 'people have liked this post' }}
                     </div>
-                    <a href="javascript:;" @click="toggleLike(post)" v-if="post.like === null">
+                    <a href="javascript:;" @click="toggleLike(post)" v-if="!post.like || post.like === null">
                         <i class="fa fa-thumbs-up fa-2x"></i>
                     </a>
                     <a href="javascript:;" @click="toggleLike(post)" v-else>
@@ -74,18 +74,17 @@
         methods: {
             deletePost() {
                 this.deleting = true
-                setTimeout(() => {
-                    axios
-                        .post(`/api/post/${this.post.id}/delete`)
-                        .then((response) => {
-                            this.$emit("post-deleted");
-                            this.deleting = false
-                        })
-                        .catch((error) => {
-                            console.error(e.response.errors);
-                            this.deleting = false
-                        });
-                }, 1000);
+                axios
+                    .post(`/api/post/${this.post.id}/delete`)
+                    .then((response) => {
+
+                        this.$root.$emit("post-deleted", this.post);
+                        this.deleting = false
+                    })
+                    .catch((error) => {
+                        console.error(e.response.errors);
+                        this.deleting = false
+                    });
             },
             comment() {
                 axios
