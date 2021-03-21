@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::group(['middleware' => 'auth:api'], function ()
+Route::group(['middleware' => 'auth'], function ()
 {
     Route::get('feed', [PostController::class, 'feed']);
 
