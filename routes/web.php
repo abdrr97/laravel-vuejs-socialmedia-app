@@ -21,11 +21,10 @@ Route::get('/', function ()
     return redirect()->route('home');
 });
 
-Route::group(['middleware' => ['auth']], function ()
+Route::group(['middleware' => ['auth:web']], function ()
 {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('user/{user}', [UserController::class, 'view_profile'])->name('view_profile');
 });
-
 
 Auth::routes();

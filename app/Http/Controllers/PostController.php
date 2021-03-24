@@ -86,7 +86,8 @@ class PostController extends Controller
      **/
     public function feed()
     {
-        $user = Auth::user();
+        $user = auth()->user();
+
 
         $feed = Post::with('user')
             ->whereHas('user', function ($query) use ($user)
@@ -105,7 +106,7 @@ class PostController extends Controller
             ->with('like')
             ->withCount('comments as total_comments')
             ->withCount('likes as total_likes')
-            ->orWhere('user_id', $user->id)
+            ->orWhere('user_id',  $user->id)
             ->orderBy('created_at', 'DESC')
             ->paginate(20);
 
