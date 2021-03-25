@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostLike;
-use App\Models\User;
-use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Cast\String_;
 
 class PostController extends Controller
 {
@@ -55,7 +53,7 @@ class PostController extends Controller
         {
             $file = $request->file('image');
             $file_ext = '.' . $file->extension();
-            $file_name = Uuid::uuid() . $file_ext;
+            $file_name =  now() . $file_ext;
 
             $file->storeAs('uploads', $file_name, 'public');
             $path = 'uploads/' . $file_name;
